@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: filters
+  datasource:
+    url: 'jdbc:postgresql://filters-db:5433/filters'
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/master-changelog.yml
+
+server:
+  servlet:
+    context-path: '/api'

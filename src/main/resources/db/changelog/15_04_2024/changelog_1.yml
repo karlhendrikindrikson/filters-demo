@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - changeSet:
+      id: 15_04_2024_1
+      author: karl.indrikson@gmail.com
+      objectQuotingStrategy: 'QUOTE_ALL_OBJECTS'
+      changes:
+
+        - createSequence:
+            sequenceName: 'FILTER_id_seq'
+
+        - createTable:
+            tableName: 'FILTER'
+            columns:
+              - column:
+                  name: 'id'
+                  type: 'bigint'
+                  defaultValueSequenceNext: 'FILTER_id_seq'
+                  constraints:
+                    nullable: false
+                    unique: true
+                    primaryKey: true
+                    primaryKeyName: 'FILTER_id_pk'
+
+              - column:
+                  name: 'created'
+                  type: 'timestamp(6) with time zone'
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: 'name'
+                  type: 'varchar(255)'
+                  constraints:
+                    nullable: false
+
+        - loadData:
+            tableName: 'FILTER'
+            file: db/changelog/15_04_2024/filter.csv
+
+        - createSequence:
+            sequenceName: 'FILTER_CRITERIA_id_seq'
+
+        - createTable:
+            tableName: 'FILTER_CRITERIA'
+            columns:
+              - column:
+                  name: 'id'
+                  type: 'bigint'
+                  defaultValueSequenceNext: 'FILTER_id_seq'
+                  constraints:
+                    nullable: false
+                    unique: true
+                    primaryKey: true
+                    primaryKeyName: 'FILTER_id_pk'
+
+              - column:
+                  name: 'created'
+                  type: 'timestamp(6) with time zone'
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: 'filterId'
+                  type: 'bigint'
+
+              - column:
+                  name: 'criteriaType'
+                  type: 'varchar(255)'
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: 'criteriaCondition'
+                  type: 'varchar(255)'
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: 'value'
+                  type: 'varchar(255)'
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: 'FILTER_CRITERIA'
+            baseColumnNames: 'filterId'
+            referencedTableName: 'FILTER'
+            referencedColumnNames: 'id'
+            constraintName: 'FILTER_CRITERIA_filter_id_fk'
+
+        - loadData:
+            tableName: 'FILTER_CRITERIA'
+            file: db/changelog/15_04_2024/filter_criteria.csv

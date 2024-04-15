@@ -1,0 +1,4 @@
+databaseChangeLog:
+
+  - include:
+      file: db/changelog/15_04_2024/changelog_1.yml

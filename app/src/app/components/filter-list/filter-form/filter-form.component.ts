@@ -96,17 +96,8 @@ export class FilterFormComponent implements OnInit {
   }
 
   saveFilter() {
-    if (!this.filterForm) return;
-
-    if (this.filterForm.invalid) {
-      this.filterForm.markAllAsTouched();
-      this.notificationService.error(
-        'The filter form contains errors',
-        null,
-        true,
-      );
-      return;
-    }
+    this.filterForm?.markAllAsTouched();
+    if (!this.filterForm || this.filterForm.invalid) return;
 
     const filter = this.getFilterValue();
 

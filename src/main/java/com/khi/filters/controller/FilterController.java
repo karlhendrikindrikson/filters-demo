@@ -3,7 +3,6 @@ package com.khi.filters.controller;
 import com.khi.filters.controller.model.filter.FilterDTO;
 import com.khi.filters.model.entity.filter.Filter;
 import com.khi.filters.service.FilterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +15,11 @@ import java.util.List;
 @RequestMapping("filters")
 public class FilterController {
 
-    @Autowired
-    private FilterService service;
+    private final FilterService service;
+
+    public FilterController(FilterService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<FilterDTO> findAll() {

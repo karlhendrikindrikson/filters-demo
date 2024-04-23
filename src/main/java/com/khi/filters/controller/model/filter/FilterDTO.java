@@ -4,7 +4,6 @@ import com.khi.filters.model.entity.filter.Filter;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class FilterDTO {
     private Long id;

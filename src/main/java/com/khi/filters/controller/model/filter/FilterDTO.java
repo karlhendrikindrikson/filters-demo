@@ -3,12 +3,13 @@ package com.khi.filters.controller.model.filter;
 import com.khi.filters.model.entity.filter.Filter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class FilterDTO {
     private Long id;
     private String name;
-    private List<FilterCriteriaDTO> criteria;
+    private List<FilterCriteriaDTO> criteria = List.of();
 
     public FilterDTO() {}
 
@@ -48,20 +49,27 @@ public class FilterDTO {
         dto.setId(filter.getId());
         dto.setName(filter.getName());
         dto.setCriteria(
-                filter.getCriteria()
-                        .stream()
-                        .map((criteria) -> {
-                            FilterCriteriaDTO criteriaDTO = new FilterCriteriaDTO();
-
-                            criteriaDTO.setCriteriaType(criteria.getCriteriaType());
-                            criteriaDTO.setCriteriaCondition(criteria.getCriteriaCondition());
-                            criteriaDTO.setValue(criteria.getValue());
-
-                            return criteriaDTO;
-                        })
-                        .collect(Collectors.toList())
+            filter.getCriteria()
+                .stream()
+                .map(FilterCriteriaDTO::fromModel)
+                .toList()
         );
 
         return dto;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FilterDTO filterDTO = (FilterDTO) o;
+        return Objects.equals(getId(), filterDTO.getId()) &&
+            Objects.equals(getName(), filterDTO.getName()) &&
+            Objects.equals(getCriteria(), filterDTO.getCriteria());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getCriteria());
     }
 }

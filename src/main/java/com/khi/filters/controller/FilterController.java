@@ -4,13 +4,16 @@ import com.khi.filters.controller.model.filter.FilterDTO;
 import com.khi.filters.model.entity.filter.Filter;
 import com.khi.filters.service.FilterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("filter")
+@RequestMapping("filters")
 public class FilterController {
 
     @Autowired
@@ -18,15 +21,15 @@ public class FilterController {
 
     @GetMapping
     public List<FilterDTO> findAll() {
-        return service.findAllFilters()
+        return service.findAll()
                 .stream()
                 .map(FilterDTO::fromModel)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @PostMapping
-    public FilterDTO save(@RequestBody FilterDTO data) {
-        Filter filter = service.save(data);
+    public FilterDTO create(@RequestBody FilterDTO data) {
+        Filter filter = service.create(data);
         return FilterDTO.fromModel(filter);
     }
 }

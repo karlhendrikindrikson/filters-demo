@@ -1,1 +1,4 @@
-id,created,filterId,criteriaType,criteriaConstraint,value
+created,filterId,criteriaType,criteriaCondition,value
+2024-04-15 00:00:00.000000,1,1,6,EX_
+2024-04-15 00:00:00.000000,2,2,9,01/01/2024
+2024-04-15 00:00:00.000000,2,2,10,12/31/2024

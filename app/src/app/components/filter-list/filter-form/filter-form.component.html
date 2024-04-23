@@ -1,0 +1,81 @@
+<div
+  class="dialog-wrapper"
+  cdkDrag
+  [cdkDragDisabled]="!data.draggable"
+  cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle
+>
+  <div class="dialog-title" mat-dialog-title>
+    {{ this.data.filter ? "Filter details" : "Add filter" }}
+  </div>
+
+  <mat-dialog-content>
+    <form *ngIf="filterForm" [formGroup]="filterForm" (ngSubmit)="saveFilter()">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="filterForm?.controls?.['name']?.hasError('required')"
+          >Required</mat-error
+        >
+      </mat-form-field>
+
+      <div formGroupName="criteria">
+        <div class="row apart criteria-header">
+          <mat-label>Criteria</mat-label>
+          <button
+            type="button"
+            mat-raised-button
+            *ngIf="canEdit"
+            (click)="addCriteria()"
+          >
+            <mat-icon>add</mat-icon>
+            Add criteria
+          </button>
+        </div>
+
+        <div class="criteria-list">
+          <app-filter-condition-form
+            *ngFor="let criteriaForm of criteriaArray.controls; let i = index"
+            [formGroupName]="i"
+            [canEdit]="canEdit"
+            [criteriaForm]="getCriteriaForm(i)"
+            (deleted)="removeCriteria(i)"
+          ></app-filter-condition-form>
+          <mat-error
+            class="mat-form-field-subscript-wrapper"
+            *ngIf="filterForm?.get('criteria')?.hasError('required')"
+            >At least one filter criteria is required
+          </mat-error>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button
+      type="button"
+      mat-dialog-close
+      mat-raised-button
+      [disabled]="isSaving"
+    >
+      <mat-icon>close</mat-icon>
+      Close
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="canEdit"
+      [disabled]="isSaving"
+      (click)="saveFilter()"
+    >
+      <mat-icon>
+        <ng-container *ngIf="!isSaving; else spinner">save</ng-container>
+      </mat-icon>
+      Save
+    </button>
+  </mat-dialog-actions>
+
+  <ng-template #spinner>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>

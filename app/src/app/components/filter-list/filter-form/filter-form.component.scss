@@ -1,0 +1,18 @@
+.dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .criteria-header {
+    height: 36px;
+    align-items: flex-end;
+    margin-bottom: 14px;
+  }
+
+  .criteria-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+  }
+}

@@ -46,12 +46,12 @@ databaseChangeLog:
               - column:
                   name: 'id'
                   type: 'bigint'
-                  defaultValueSequenceNext: 'FILTER_id_seq'
+                  defaultValueSequenceNext: 'FILTER_CRITERIA_id_seq'
                   constraints:
                     nullable: false
                     unique: true
                     primaryKey: true
-                    primaryKeyName: 'FILTER_id_pk'
+                    primaryKeyName: 'FILTER_CRITERIA_id_pk'
 
               - column:
                   name: 'created'
@@ -65,13 +65,13 @@ databaseChangeLog:
 
               - column:
                   name: 'criteriaType'
-                  type: 'varchar(255)'
+                  type: 'smallint'
                   constraints:
                     nullable: false
 
               - column:
                   name: 'criteriaCondition'
-                  type: 'varchar(255)'
+                  type: 'smallint'
                   constraints:
                     nullable: false
 

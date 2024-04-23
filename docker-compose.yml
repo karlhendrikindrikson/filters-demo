@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  filters-db:
+    image: postgres:11.1
+    ports:
+      - "5544:5433"
+    restart: always
+    environment:
+      POSTGRES_USER: filters
+      POSTGRES_PASSWORD: filters
+      POSTGRES_DB: filters
+    command: -p 5433

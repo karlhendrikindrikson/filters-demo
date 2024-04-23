@@ -2,16 +2,22 @@ spring:
   application:
     name: filters
   datasource:
-    url: 'jdbc:postgresql://filters-db:5433/filters'
-    username: postgres
-    password: postgres
+    url: 'jdbc:postgresql://localhost:5544/filters'
+    username: filters
+    password: filters
   jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    generate-ddl: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        globally_quoted_identifiers: true
   liquibase:
     change-log: classpath:db/changelog/master-changelog.yml
 
 server:
+  port: 8181
   servlet:
-    context-path: '/api'
+    context-path: '/rest'

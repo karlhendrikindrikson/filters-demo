@@ -1,0 +1,40 @@
+<mat-card class="filter-list">
+  <mat-card-title>Filters</mat-card-title>
+
+  <div class="actions">
+    <button mat-raised-button (click)="openDialogForm()">
+      <mat-icon>add</mat-icon>
+      Add filter
+    </button>
+  </div>
+
+  <table
+    class="filters-table"
+    *ngIf="!isLoading && filters"
+    mat-table
+    [dataSource]="filters"
+  >
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let filter">{{ filter.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="actions-cell">Actions</th>
+      <td mat-cell *matCellDef="let filter" class="actions-cell">
+        <button mat-button (click)="openDialogForm(filter)">
+          <mat-icon>visibility</mat-icon>
+          View
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        No existing filters were found. Start by creating a new one.
+      </td>
+    </tr>
+  </table>
+</mat-card>

@@ -1,0 +1,98 @@
+<div class="form-row">
+  <form [formGroup]="criteriaForm">
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="criteriaType">
+        <mat-option
+          *ngFor="let criteriaType of CriteriaTypes"
+          [value]="criteriaType"
+        >
+          {{ displayEnum(criteriaType) }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="criteriaForm?.controls?.['criteriaType']?.hasError('required')"
+        >Required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Condition</mat-label>
+      <mat-select formControlName="criteriaCondition">
+        <ng-container *ngIf="criteriaConditions.length">
+          <mat-option
+            *ngFor="let condition of criteriaConditions"
+            [value]="condition"
+          >
+            {{ displayEnum(condition) }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          criteriaForm?.controls?.['criteriaCondition']?.hasError('required')
+        "
+        >Required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Since mat-datepicker requires all elements to be direct siblings, define all variants individually -->
+    <ng-container [ngSwitch]="criteriaType">
+      <ng-container *ngSwitchCase="CriteriaType.AMOUNT">
+        <mat-form-field class="value-field">
+          <mat-label>Value</mat-label>
+          <input type="number" matInput formControlName="value" />
+          <mat-error
+            *ngIf="criteriaForm?.controls?.['value']?.hasError('required')"
+            >Required
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="CriteriaType.TITLE">
+        <mat-form-field class="value-field">
+          <mat-label>Value</mat-label>
+          <input type="text" matInput formControlName="value" />
+          <mat-error
+            *ngIf="criteriaForm?.controls?.['value']?.hasError('required')"
+            >Required
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="CriteriaType.DATE">
+        <mat-form-field class="value-field">
+          <mat-label>Value</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="value" />
+          <!-- Styles break if the following elements aren't direct siblings -->
+          <mat-hint
+            *ngIf="
+              !criteriaForm?.controls?.['value']?.touched ||
+              criteriaForm?.controls?.['value']?.invalid
+            "
+            >MM/DD/YYYY
+          </mat-hint>
+          <mat-error
+            *ngIf="criteriaForm?.controls?.['value']?.hasError('required')"
+            >Required
+          </mat-error>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+
+    <button
+      type="button"
+      mat-button
+      class="icon-button remove-button form-row-button"
+      *ngIf="canEdit"
+      (click)="emitDeleteEvent()"
+    >
+      <mat-icon>remove</mat-icon>
+    </button>
+  </form>
+</div>

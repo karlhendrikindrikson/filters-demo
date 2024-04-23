@@ -3,26 +3,23 @@ package com.khi.filters.model.entity.filter;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.*;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @MappedSuperclass
 public abstract class AbstractJPAEntity<T extends Serializable> {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    protected T id = null;
+    public static final String GENERATOR_NAME = "seq_generator";
 
-    @Column(updatable = false, insertable = false, nullable = false)
-    protected Instant created;
+    @Id
+    @GeneratedValue(strategy = SEQUENCE, generator = GENERATOR_NAME)
+    protected T id;
+
+    @Column(updatable = false, nullable = false)
+    protected Instant created = Instant.now();
 
     public AbstractJPAEntity() {}
-
-    public AbstractJPAEntity(T id, Instant created) {
-        this.id = id;
-        this.created = created;
-    }
 
     public T getId() {
         return id;
